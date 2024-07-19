@@ -3,9 +3,9 @@ import React from "react";
 
 const GameIndices = ({ nameGame }) => {
   return (
-    <ul>
-      <li className="flex"><Gamepad/> {nameGame.version.name}</li>
-    </ul>
+    <li className="flex gap-2">
+      <Gamepad /> {nameGame.version.name}
+    </li>
   );
 };
 
