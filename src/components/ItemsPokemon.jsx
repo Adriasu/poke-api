@@ -1,10 +1,11 @@
+import { ShoppingBag } from 'lucide-react'
 import React from 'react'
 
-const ItemsPokemon = () => {
+const ItemsPokemon = ({nameItem}) => {
   return (
-    <div>
-      
-    </div>
+    <li className="flex gap-2">
+        <ShoppingBag/> {nameItem.item.name}
+    </li>
   )
 }
 

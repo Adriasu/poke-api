@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import GameIndices from "./GameIndices";
 import TypePokemon from "./TypePokemon";
 import MovesPokemon from "./MovesPokemon";
+import ItemsPokemon from "./ItemsPokemon";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -62,17 +63,21 @@ const PokedexApi = () => {
         </ul>
       </div>
       <div>
-      <p>Lista de sus movimientos:</p>
-      <ul>
-        {pokemon.moves.map((move, i) => {
-            return <MovesPokemon key={i} nameMove={move} />
-        })
-
-        }
-      </ul>
-
+        <p>Lista de sus movimientos:</p>
+        <ul>
+          {pokemon.moves.map((move, i) => {
+            return <MovesPokemon key={i} nameMove={move} />;
+          })}
+        </ul>
       </div>
-      <p>Item que usa</p>
+      <div>
+        <p>Item que usa:</p>
+        <ul>
+          {pokemon.held_items.map((item, i) => {
+            return <ItemsPokemon key={i} nameItem={item} />;
+          })}
+        </ul>
+      </div>
       <p>Lista de las áreas de localización</p>
       <p>Galeria</p>
     </div>
