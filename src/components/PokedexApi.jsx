@@ -4,12 +4,14 @@ import TypePokemon from "./TypePokemon";
 import MovesPokemon from "./MovesPokemon";
 import ItemsPokemon from "./ItemsPokemon";
 import LocationPokemon from "./LocationPokemon";
+import GaleryPokemon from "./GaleryPokemon";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState(null);
-  const [location, setLocation] = useState(null)
-  const idPokemon = 25;
+  const [location, setLocation] = useState(null);
+  const [galery, setGalery] = useState(null)
+  const idPokemon = 125;
 
   const fetchPokemon = async () => {
     try {
@@ -17,15 +19,19 @@ const PokedexApi = () => {
         `https://pokeapi.co/api/v2/pokemon/${idPokemon}/`
       );
       const data = await response.json();
-      const responseListLocation = await fetch(data.location_area_encounters)
-      const dataLocation = await responseListLocation.json()
+      const responseListLocation = await fetch(data.location_area_encounters);
+      const dataLocation = await responseListLocation.json();
+      const dataGalery = Object.entries(data.sprites).slice(0,8).filter((link) => {
+        return link[1] !== null
+      })
       setPokemon(data);
-      setLocation(dataLocation)
+      setLocation(dataLocation);
+      setGalery(dataGalery)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-    return
+    return;
   };
 
   useEffect(() => {
@@ -33,7 +39,7 @@ const PokedexApi = () => {
   }, []);
 
   console.log(pokemon);
-  console.log(location);
+  
 
   if (isLoading) {
     return (
@@ -86,18 +92,22 @@ const PokedexApi = () => {
         </ul>
       </div>
       <div>
-      <p>Lista de las áreas de localización:</p>
-      <ul>
-        {location.map((location, i) => {
-          return <LocationPokemon key={i} nameLocation={location}/>
-
-        })
-
-        }
-      </ul>
-
+        <p>Lista de las áreas de localización:</p>
+        <ul>
+          {location.map((location, i) => {
+            return <LocationPokemon key={i} nameLocation={location} />;
+          })}
+        </ul>
       </div>
       <p>Galeria</p>
+      <div>
+       {galery.map((link, i) => {
+        return <GaleryPokemon key={i} linkGalery={link[1]} />
+       })
+
+       }
+      </div>
+     
     </div>
   );
 };
