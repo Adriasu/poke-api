@@ -3,10 +3,12 @@ import GameIndices from "./GameIndices";
 import TypePokemon from "./TypePokemon";
 import MovesPokemon from "./MovesPokemon";
 import ItemsPokemon from "./ItemsPokemon";
+import LocationPokemon from "./LocationPokemon";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [pokemon, setPokemon] = useState([]);
+  const [pokemon, setPokemon] = useState(null);
+  const [location, setLocation] = useState(null)
   const idPokemon = 25;
 
   const fetchPokemon = async () => {
@@ -15,11 +17,15 @@ const PokedexApi = () => {
         `https://pokeapi.co/api/v2/pokemon/${idPokemon}/`
       );
       const data = await response.json();
+      const responseListLocation = await fetch(data.location_area_encounters)
+      const dataLocation = await responseListLocation.json()
       setPokemon(data);
+      setLocation(dataLocation)
       setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
+    return
   };
 
   useEffect(() => {
@@ -27,6 +33,7 @@ const PokedexApi = () => {
   }, []);
 
   console.log(pokemon);
+  console.log(location);
 
   if (isLoading) {
     return (
@@ -40,8 +47,8 @@ const PokedexApi = () => {
     );
   }
   return (
-    <div className="relative w-[1100px] bg-no-repeat bg-contain bg-[url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/10ba5f86-4d37-408b-833f-6e8defe939d9/dfsvgoo-e7539b74-012c-480a-b7c6-2eba83733a90.png/v1/fill/w_1017,h_786,q_70,strp/pokedex_template_by_wynautwarrior_dfsvgoo-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9ODUwIiwicGF0aCI6IlwvZlwvMTBiYTVmODYtNGQzNy00MDhiLTgzM2YtNmU4ZGVmZTkzOWQ5XC9kZnN2Z29vLWU3NTM5Yjc0LTAxMmMtNDgwYS1iN2M2LTJlYmE4MzczM2E5MC5wbmciLCJ3aWR0aCI6Ijw9MTEwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.ziZT_G013GKL82hJ-1RqehbgV7v3vd9flKuteGmJf6M')]">
-      <h1 className="text-[50px] font-bold absolute left-[80px] top-[22px] bg-[#ffffff] ">{pokemon.name}</h1>
+    <div className="text-white w-[1100px] bg-no-repeat bg-contain bg-[url('https://w0.peakpx.com/wallpaper/397/77/HD-wallpaper-pokeballs-games-gaming-great-ball-master-ball-nintendo-poke-ball-pokeball-pokemon-ultra-ball-thumbnail.jpg')]">
+      <h1>Nombre: {pokemon.name}</h1>
       <h2>id: {pokemon.id}</h2>
       <p>Experiencia base: {pokemon.base_experience}</p>
       <p>Altura {pokemon.height}</p>
@@ -78,7 +85,18 @@ const PokedexApi = () => {
           })}
         </ul>
       </div>
-      <p>Lista de las áreas de localización</p>
+      <div>
+      <p>Lista de las áreas de localización:</p>
+      <ul>
+        {location.map((location, i) => {
+          return <LocationPokemon key={i} nameLocation={location}/>
+
+        })
+
+        }
+      </ul>
+
+      </div>
       <p>Galeria</p>
     </div>
   );
