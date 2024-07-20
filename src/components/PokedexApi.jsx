@@ -5,12 +5,13 @@ import MovesPokemon from "./MovesPokemon";
 import ItemsPokemon from "./ItemsPokemon";
 import LocationPokemon from "./LocationPokemon";
 import GaleryPokemon from "./GaleryPokemon";
+import CardStats from "./CardStats";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState(null);
   const [location, setLocation] = useState(null);
-  const [galery, setGalery] = useState(null)
+  const [galery, setGalery] = useState(null);
   const idPokemon = 125;
 
   const fetchPokemon = async () => {
@@ -21,12 +22,14 @@ const PokedexApi = () => {
       const data = await response.json();
       const responseListLocation = await fetch(data.location_area_encounters);
       const dataLocation = await responseListLocation.json();
-      const dataGalery = Object.entries(data.sprites).slice(0,8).filter((link) => {
-        return link[1] !== null
-      })
+      const dataGalery = Object.entries(data.sprites)
+        .slice(0, 8)
+        .filter((link) => {
+          return link[1] !== null;
+        });
       setPokemon(data);
       setLocation(dataLocation);
-      setGalery(dataGalery)
+      setGalery(dataGalery);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -39,7 +42,6 @@ const PokedexApi = () => {
   }, []);
 
   console.log(pokemon);
-  
 
   if (isLoading) {
     return (
@@ -101,13 +103,15 @@ const PokedexApi = () => {
       </div>
       <p>Galeria</p>
       <div>
-       {galery.map((link, i) => {
-        return <GaleryPokemon key={i} linkGalery={link[1]} />
-       })
-
-       }
+        {galery.map((link, i) => {
+          return <GaleryPokemon key={i} linkGalery={link[1]} />;
+        })}
       </div>
-     
+      <div>
+        {pokemon.stats.map((stats, i) => {
+          return <CardStats key={i} statsPokemon={stats} />;
+        })}
+      </div>
     </div>
   );
 };
