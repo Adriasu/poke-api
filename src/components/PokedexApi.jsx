@@ -12,7 +12,7 @@ const PokedexApi = () => {
   const [pokemon, setPokemon] = useState(null);
   const [location, setLocation] = useState(null);
   const [galery, setGalery] = useState(null);
-  const idPokemon = 242;
+  const idPokemon = 89;
 
   const fetchPokemon = async () => {
     try {
@@ -44,7 +44,7 @@ const PokedexApi = () => {
   const cssClassCards =
     "border-[10px] border-[#189e9a] rounded-2xl bg-[#cde68e] bg-opacity-80";
 
-    const cssClassBtns = "border-[5px] border-[#189e9a] rounded-3xl p-1"
+  const cssClassBtns = "border-[5px] border-[#189e9a] rounded-3xl p-1";
 
   if (isLoading) {
     return (
@@ -58,23 +58,90 @@ const PokedexApi = () => {
     );
   }
   return (
-    <div className="flex flex-col text-white w-full rounded-lg bg-contain bg-no-repeat bg-[url('https://assets.pokemon.com//assets/cms2-es-es/img/misc/virtual-backgrounds/masters/forest.jpg')]">
-      <div className="flex gap-8 mt-[150px] w-full h-[620px] justify-center items-center text-black">
-        <div className={`w-[1000px] h-[620px] ${cssClassCards} p-[10px]`}>
-          <div className="flex">
-            <p className={`${cssClassBtns}`}>Height: {pokemon.height}</p>
-            <p className={`${cssClassBtns}`}>Weight: {pokemon.weight}</p>
-            <div className={`flex ${cssClassBtns}`}>
-              <p>Tipo:</p>
-              <ul>
+    <div className="flex flex-col gap-2 justify-center items-center text-black">
+      <div className="h-[150px] border-[2px] border-[#189e9a]"></div>
+      <div className="flex gap-8 justify-center items-center">
+        <div
+          className={`max-w-[1000px] h-[620px] ${cssClassCards} p-[10px] flex`}
+        >
+          <div className="w-[600px] border-[2px] border-[#189e9a] overflow-hidden flex flex-col gap-3 ">
+            <div className="w-full h-[453px] grid grid-cols-3 gap-3">
+              <div className={`${cssClassBtns} overflow-auto scrollbar-hide`}>
+                <p>Games: </p>
+                <ul>
+                  {pokemon.game_indices.map((game, i) => {
+                    return <GameIndices key={i} nameGame={game} />;
+                  })}
+                </ul>
+              </div>
+
+              <div className={`${cssClassBtns} overflow-auto scrollbar-hide`}>
+                <p>Moves:</p>
+                <ul>
+                  {pokemon.moves.map((move, i) => {
+                    return <MovesPokemon key={i} nameMove={move} />;
+                  })}
+                </ul>
+              </div>
+
+              <div className={`${cssClassBtns} overflow-auto scrollbar-hide`}>
+                <p>Location:</p>
+                <ul>
+                  {location.map((location, i) => {
+                    return <LocationPokemon key={i} nameLocation={location} />;
+                  })}
+                </ul>
+              </div>
+            </div>
+
+            <div className={`${cssClassBtns} flex overflow-x-auto`}>
+              {galery.map((link, i) => {
+                return <GaleryPokemon key={i} linkGalery={link[1]} />;
+              })}
+            </div>
+          </div>
+          <div className="w-[400px] flex flex-col gap-6 text-3xl font-medium">
+            <div className="flex flex-col gap-5 justify-around">
+              <div
+                className={`${cssClassBtns} flex flex-col h-[120px] justify-between px-8 py-3`}
+              >
+                <div className="flex justify-between">
+                  <p>Height</p>
+                  <p>{(pokemon.height / 10).toFixed(2)} m</p>
+                </div>
+                <div className="flex justify-between border-dashed border-[#189e9a] border-t-[2px]">
+                  <p>Weight</p>
+                  <p>{(pokemon.weight / 10).toFixed(2)} kg</p>
+                </div>
+              </div>
+              <div className="flex justify-around">
                 {pokemon.types.map((type, i) => {
                   return <TypePokemon key={i} nameType={type} />;
                 })}
-              </ul>
+              </div>
+            </div>
+
+            <hr className="border-dashed border-[#189e9a] border-[2px]" />
+
+            <div className="flex flex-col items-center gap-5">
+              <div
+                className={`${cssClassBtns} w-[250px] text-center flex justify-between px-8 py-3`}
+              >
+                <p>Exp:</p>
+                <p>{pokemon.base_experience}</p>
+              </div>
+              <div
+                className={`${cssClassBtns} w-full h-[255px] px-8 py-3 flex flex-col gap-3`}
+              >
+                <p>Item:</p>
+                <ul>
+                  {pokemon.held_items.map((item, i) => {
+                    return <ItemsPokemon key={i} nameItem={item} />;
+                  })}
+                </ul>
+              </div>
             </div>
           </div>
-
-          <p>Experiencia base: {pokemon.base_experience}</p>
         </div>
 
         <div className="w-[360px] h-[620px] flex flex-col gap-6">
@@ -83,9 +150,9 @@ const PokedexApi = () => {
           >
             <div className="w-[270px] h-[270px] rounded-full flex justify-center items-center border-[5px] border-[#189e9a] bg-gradient-to-r from-green-400 via-yellow-300 to-green-600">
               <img
-                className="h-[250px]"
+                className="h-[250px] flex justify-center items-center"
                 src={pokemon.sprites.other.dream_world.front_default}
-                alt="pokemon"
+                alt={pokemon.name}
               />
             </div>
             <div className="flex w-[300px] text-3xl justify-around font-bold">
@@ -106,49 +173,6 @@ const PokedexApi = () => {
             })}
           </div>
         </div>
-      </div>
-
-      <div>
-        <div>
-          <p>Lista de los juegos en los que ha aparecido: </p>
-          <ul>
-            {pokemon.game_indices.map((game, i) => {
-              return <GameIndices key={i} nameGame={game} />;
-            })}
-          </ul>
-        </div>
-
-        <div>
-          <p>Lista de sus movimientos:</p>
-          <ul>
-            {pokemon.moves.map((move, i) => {
-              return <MovesPokemon key={i} nameMove={move} />;
-            })}
-          </ul>
-        </div>
-        <div>
-          <p>Item que usa:</p>
-          <ul>
-            {pokemon.held_items.map((item, i) => {
-              return <ItemsPokemon key={i} nameItem={item} />;
-            })}
-          </ul>
-        </div>
-        <div>
-          <p>Lista de las áreas de localización:</p>
-          <ul>
-            {location.map((location, i) => {
-              return <LocationPokemon key={i} nameLocation={location} />;
-            })}
-          </ul>
-        </div>
-        <p>Galeria</p>
-        <div>
-          {galery.map((link, i) => {
-            return <GaleryPokemon key={i} linkGalery={link[1]} />;
-          })}
-        </div>
-        <div></div>
       </div>
     </div>
   );
