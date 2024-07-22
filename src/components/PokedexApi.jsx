@@ -12,7 +12,7 @@ const PokedexApi = () => {
   const [pokemon, setPokemon] = useState(null);
   const [location, setLocation] = useState(null);
   const [galery, setGalery] = useState(null);
-  const idPokemon = 125;
+  const idPokemon = 16;
 
   const fetchPokemon = async () => {
     try {
