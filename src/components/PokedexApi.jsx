@@ -9,9 +9,9 @@ import CardStats from "./CardStats";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [pokemon, setPokemon] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [galery, setGalery] = useState(null);
+  const [pokemon, setPokemon] = useState([]);
+  const [location, setLocation] = useState([]);
+  const [galery, setGalery] = useState([]);
   const idPokemon = 16;
 
   const fetchPokemon = async () => {
