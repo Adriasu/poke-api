@@ -6,21 +6,28 @@ const PokeList = () => {
   const [pokeData, setPokeData] = useState([]);
   const [offSet, setOffSet] = useState(20);
 
-  const fetchPokemon = async (offSet, limit) => {
+  console.log(useState());
+
+  const fetchPokemon = async (offSetProps, limit) => {
     try {
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/?offset=${offSet}&limit=${limit}`
+        `https://pokeapi.co/api/v2/pokemon/?offset=${offSetProps}&limit=${limit}`
       );
       const data = await response.json();
+
       const dataPokemons = data.results.map(async (url) => {
         const response = await fetch(url.url);
         const data = await response.json();
         return data;
       });
       const results = await Promise.all(dataPokemons);
-      console.log(pokeData);
-      //setPokeData(results)
-      setPokeData((prevPokemons) => [...prevPokemons, ...results]);
+
+      if (offSetProps === 0) {
+        setPokeData(results);
+      } else {
+        setPokeData((prevPokemons) => [...prevPokemons, ...results]);
+      }
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -37,10 +44,9 @@ const PokeList = () => {
     fetchPokemon(offSet, 10);
   };
 
-const deletePokemon = (id) => {
-  setPokeData((prev) => prev.filter(pokemon => pokemon.id !== id))
-}
-
+  const deletePokemon = (id) => {
+    setPokeData((prev) => prev.filter((pokemon) => pokemon.id !== id));
+  };
 
   if (isLoading) {
     return (
@@ -54,7 +60,7 @@ const deletePokemon = (id) => {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center px-8">
       <img
         className="mb-7 w-[400px]"
         src="https://raw.githubusercontent.com/mauro-au/pokemon/master/assets/img/logo.png"
@@ -63,7 +69,9 @@ const deletePokemon = (id) => {
 
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mb-7">
         {pokeData.map((pokemon, i) => {
-          return <PokeCard key={i} infoPokemon={pokemon} funDelete={deletePokemon} />;
+          return (
+            <PokeCard key={i} infoPokemon={pokemon} funDelete={deletePokemon} />
+          );
         })}
       </div>
       <button
