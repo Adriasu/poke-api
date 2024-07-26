@@ -6,8 +6,6 @@ const PokeList = () => {
   const [pokeData, setPokeData] = useState([]);
   const [offSet, setOffSet] = useState(20);
 
-  console.log(useState());
-
   const fetchPokemon = async (offSetProps, limit) => {
     try {
       const response = await fetch(
@@ -44,8 +42,15 @@ const PokeList = () => {
     fetchPokemon(offSet, 10);
   };
 
-  const deletePokemon = (id) => {
-    setPokeData((prev) => prev.filter((pokemon) => pokemon.id !== id));
+  const deletePokemon = (idSelected) => {
+    const deleteById = pokeData.findIndex((pokemon) => {
+      return pokemon.id === idSelected;
+    });
+    console.log(deleteById);
+    pokeData.splice(deleteById, 1);
+    console.log(pokeData);
+    setPokeData([...pokeData]);
+    return;
   };
 
   if (isLoading) {
