@@ -65,7 +65,9 @@ const PokeList = () => {
     );
   }
   return (
-    <div className="flex flex-col justify-center items-center px-8">
+    <div
+      className={`flex flex-col justify-center items-center px-8 bg-contain bg-center bg-[url('https://assets.pokemon.com//assets/cms2-es-es/img/misc/virtual-backgrounds/masters/forest.jpg')]`}
+    >
       <img
         className="mb-7 w-[400px]"
         src="https://raw.githubusercontent.com/mauro-au/pokemon/master/assets/img/logo.png"
@@ -90,3 +92,7 @@ const PokeList = () => {
 };
 
 export default PokeList;
+
+//bg-[url('https://assets.pokemon.com//assets/cms2-es-es/img/misc/virtual-backgrounds/masters/forest.jpg')
+
+//className="inline-block w-[300px] text-left shadow-[0px_5px_20px_-10px_#111111] relative transition-[0.4s] m-2.5 p-[1em] rounded-2xl bg-[#ddd]"
