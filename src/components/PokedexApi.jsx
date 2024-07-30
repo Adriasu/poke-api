@@ -6,18 +6,19 @@ import ItemsPokemon from "./ItemsPokemon";
 import LocationPokemon from "./LocationPokemon";
 import GaleryPokemon from "./GaleryPokemon";
 import CardStats from "./CardStats";
+import { Link, useParams } from "react-router-dom";
 
 const PokedexApi = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [pokemon, setPokemon] = useState([]);
   const [location, setLocation] = useState([]);
   const [galery, setGalery] = useState([]);
-  const idPokemon = 10080;
+  const {id} = useParams()
 
   const fetchPokemon = async () => {
     try {
       const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${idPokemon}/`
+        `https://pokeapi.co/api/v2/pokemon/${id}/`
       );
       const data = await response.json();
       const responseListLocation = await fetch(data.location_area_encounters);
@@ -56,22 +57,21 @@ const PokedexApi = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-row gap-2">
-        <div className="animate-pulse bg-gray-300 w-12 h-12 rounded-full"></div>
-        <div className="flex flex-col gap-2">
-          <div className="animate-pulse bg-gray-300 w-28 h-5 rounded-full"></div>
-          <div className="animate-pulse bg-gray-300 w-36 h-5 rounded-full"></div>
-        </div>
+      <div className="flex justify-center items-center">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmE0NndjenZ3d3dsNnRub21idGt5YnZmMGo4N3UzNWdnMWZycGIyNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/W2LPUUdHkPFNLaWwPZ/giphy.webp" alt="" />
       </div>
     );
   }
   return (
-    <div className="flex flex-col gap-8 justify-center items-center text-black">
+    <div className="relative flex flex-col gap-8 justify-center items-center text-black bg-cover bg-center bg-[url('https://assets.pokemon.com//assets/cms2-es-es/img/misc/virtual-backgrounds/masters/forest.jpg')]">
       <img
-        className="w-[400px]"
+        className="w-[300px] mt-3"
         src="https://raw.githubusercontent.com/mauro-au/pokemon/master/assets/img/logo.png"
         alt="Pokemon"
       />
+      
+        <Link className={`${cssClassBtns} bg-[#cde68e] bg-opacity-80 text-lg font-bold absolute top-[90px] left-20 p-2`} to={"/"}>Back</Link>
+      
       <div className="flex gap-8 justify-center items-center text-black">
         <div
           className={`max-w-[1000px] h-[620px] ${cssClassCards} p-[10px] flex gap-3`}
@@ -201,3 +201,5 @@ const PokedexApi = () => {
 };
 
 export default PokedexApi;
+
+

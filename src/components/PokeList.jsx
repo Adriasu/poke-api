@@ -55,12 +55,8 @@ const PokeList = () => {
 
   if (isLoading) {
     return (
-      <div className="flex flex-row gap-2">
-        <div className="animate-pulse bg-gray-300 w-12 h-12 rounded-full"></div>
-        <div className="flex flex-col gap-2">
-          <div className="animate-pulse bg-gray-300 w-28 h-5 rounded-full"></div>
-          <div className="animate-pulse bg-gray-300 w-36 h-5 rounded-full"></div>
-        </div>
+      <div className="flex justify-center items-center">
+      <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExYmE0NndjenZ3d3dsNnRub21idGt5YnZmMGo4N3UzNWdnMWZycGIyNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/W2LPUUdHkPFNLaWwPZ/giphy.webp" alt="" />
       </div>
     );
   }
